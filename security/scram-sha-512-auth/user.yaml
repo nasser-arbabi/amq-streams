@@ -1,0 +1,38 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaUser
+metadata:
+  name: amq-user
+  labels:
+    strimzi.io/cluster: amq-cluster
+spec:
+  authentication:
+    type: scram-sha-512
+  authorization:
+    type: simple
+    acls:
+      # Example ACL rules for consuming from amq-topic using consumer group amq-group
+      - resource:
+          type: topic
+          name: amq-topic
+          patternType: literal
+        operations:
+          - Describe
+          - Read
+        host: "*"
+      - resource:
+          type: group
+          name: amq-group
+          patternType: literal
+        operations:
+          - Read
+        host: "*"
+      # Example ACL rules for producing to topic amq-topic
+      - resource:
+          type: topic
+          name: amq-topic
+          patternType: literal
+        operations:
+          - Create
+          - Describe
+          - Write
+        host: "*"

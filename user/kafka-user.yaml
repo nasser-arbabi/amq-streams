@@ -1,0 +1,38 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaUser
+metadata:
+  name: amq-user
+  labels:
+    strimzi.io/cluster: amq-cluster
+spec:
+  authentication:
+    type: tls
+  authorization:
+    type: simple
+    acls:
+      # Example consumer Acls for topic amq-topic using consumer group amq-group
+      - resource:
+          type: topic
+          name: amq-topic
+          patternType: literal
+        operations:
+          - Describe
+          - Read
+        host: "*"
+      - resource:
+          type: group
+          name: amq-group
+          patternType: literal
+        operations:
+          - Read
+        host: "*"
+      # Example Producer Acls for topic amq-topic
+      - resource:
+          type: topic
+          name: amq-topic
+          patternType: literal
+        operations:
+          - Create
+          - Describe
+          - Write
+        host: "*"

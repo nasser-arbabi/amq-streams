@@ -1,0 +1,12 @@
+## Kafka UI values
+yamlApplicationConfig:
+  kafka:
+    clusters:
+      - name: amq-cluster
+        bootstrapServers:  amq-cluster-kafka-bootstrap:9092
+  auth:
+    type: disabled
+  management:
+    health:
+      ldap:
+        enabled: false

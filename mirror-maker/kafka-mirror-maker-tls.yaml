@@ -1,0 +1,21 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaMirrorMaker
+metadata:
+  name: amq-mirror-maker
+spec:
+  version: 3.4.0
+  replicas: 1
+  consumer:
+    bootstrapServers: amq-source-cluster-kafka-bootstrap:9093
+    groupId: amq-source-group-id
+    tls:
+      trustedCertificates:
+        - secretName: amq-source-cluster-cluster-ca-cert
+          certificate: ca.crt
+  producer:
+    bootstrapServers: amq-target-cluster-kafka-bootstrap:9093
+    tls:
+      trustedCertificates:
+        - secretName: amq-target-cluster-cluster-ca-cert
+          certificate: ca.crt
+  include: ".*"
